@@ -49,11 +49,4 @@ public class UsersServiceImpl implements UsersService {
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     }
-
-    @Override
-    @Transactional
-    public void change(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }
 }
