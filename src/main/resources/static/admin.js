@@ -39,12 +39,18 @@ function deleteUser(user) {
     document.getElementById("dlastName").value = user["lastName"]
     document.getElementById("dage").value = user["age"]
     document.getElementById("demail").value = user["email"]
-    document.getElementById(`deleteButton`).onclick = function () {
+    document.getElementById("deleteButton").onclick = function () {
         fetch(`/delete/${user["id"]}`, {
             method: "DELETE"
         }).then(response => {
-            document.getElementById(`user${user["id"]}`).remove()
-        });
+            return fetch("/users");
+        })
+            .then(res => res.json())
+            .then(json => {
+                const tableBody = document.querySelector("tbody");
+                tableBody.innerHTML = '';
+                json.forEach(addTableUser);
+            })
     }
 }
 
@@ -61,17 +67,14 @@ function editUser(user) {
         for (let i = 0; i < options.length; i++) {
             if (options[i].selected) {
                 roles.push({
-                    id: options[i].value,
-                    name: options[i].text
+                    id: options[i].value, name: options[i].text
                 })
             }
         }
         fetch(`/edit/${user["id"]}`, {
-            method: "PUT",
-            headers: {
+            method: "PUT", headers: {
                 "Content-type": "application/json"
-            },
-            body: JSON.stringify({
+            }, body: JSON.stringify({
                 id: document.getElementById("eid").value,
                 name: document.getElementById("ename").value,
                 lastName: document.getElementById("elastName").value,
@@ -80,10 +83,14 @@ function editUser(user) {
                 password: document.getElementById("epassword").value,
                 roles: name
             })
-        }).then(r => r.json())
+        }).then(response => {
+            return fetch("/users");
+        })
+            .then(res => res.json())
             .then(json => {
-                document.getElementById(`user${user["id"]}`).remove()
-
+                const tableBody = document.querySelector("tbody");
+                tableBody.innerHTML = '';
+                json.forEach(addTableUser);
             })
     }
 }
@@ -99,33 +106,29 @@ function createNewUser() {
     for (let i = 0; i < options.length; i++) {
         if (options[i].selected) {
             newRoles.push({
-                id: options[i].value,
-                name: options[i].text
+                id: options[i].value, name: options[i].text
             })
         }
     }
     fetch('/new', {
-        method: "POST",
-        headers: {
+        method: "POST", headers: {
             "Content-type": "application/json; charset=UTF-8"
-        },
-        body: JSON.stringify({name, lastName, age, email, password, roles: newRoles})
+        }, body: JSON.stringify({name, lastName, age, email, password, roles: newRoles})
     }).then(r => r.json())
         .then(json => {
-                addTableUser({id: json, name, lastName, age, email, password, roles: newRoles})
-                document.getElementById('tabTable').click()
-                document.getElementById('name').value = ""
-                document.getElementById('lastName').value = ""
-                document.getElementById('age').value = ""
-                document.getElementById('email').value = ""
-                document.getElementById('password').value = ""
-                for (let i = 0; i < options.length; i++) {
-                    if (options[i].selected) {
-                        options[i].selected = false
-                    }
+            addTableUser({id: json, name, lastName, age, email, password, roles: newRoles})
+            document.getElementById('tabTable').click()
+            document.getElementById('name').value = ""
+            document.getElementById('lastName').value = ""
+            document.getElementById('age').value = ""
+            document.getElementById('email').value = ""
+            document.getElementById('password').value = ""
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    options[i].selected = false
                 }
             }
-        )
+        })
 }
 
 function addTableUser(user) {
@@ -150,7 +153,7 @@ function addTableUser(user) {
     const editTd = document.createElement("td")
     const editButton = document.createElement("button")
     editButton.setAttribute("type", "button")
-    editButton.setAttribute("class", "btn btn-info")
+    editButton.setAttribute("class", "btn btn-primary")
     editButton.setAttribute("name", "edit")
     editButton.setAttribute("id", `editUser${user["id"]}`)
     editButton.setAttribute("data-toggle", "modal")
