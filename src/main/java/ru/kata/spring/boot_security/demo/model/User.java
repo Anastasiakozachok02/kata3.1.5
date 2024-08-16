@@ -1,5 +1,4 @@
-package ru.kata.spring.boot_security.demo.models;
-
+package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,45 +13,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
     @Column
     private String name;
 
-    @NotEmpty
     @Column
     private String lastName;
 
-    @NotNull
     @Column
     private Byte age;
 
     @Column(unique = true)
-    @Email
     private String email;
 
     @Column
-    @NotEmpty
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @NotEmpty
     private Set<Role> roles;
 
     public User() {

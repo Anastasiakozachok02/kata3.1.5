@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <title>User</title>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <div>
-        <span class="text-light me-3"><strong th:text="${username}">Username</strong></span>
-        <span class="text-light me-3"> with roles: </span>
-        <span class="text-light" th:each="role : ${roles}">
-            <span th:text="${role}">Role</span>
-            <span> </span>
-        </span>
+        <span id="currentUserEmail" class="text-light me-3"></span>
+        <span class="text-light me-3">with roles:</span>
+        <span id="currentUserRoles" class="text-light"> </span>
     </div>
     <div class="d-flex ms-auto">
         <a class="btn btn-link text-secondary" th:href="@{/logout}">Logout</a>
@@ -26,9 +30,8 @@
 </nav>
 <div class="d-flex">
     <div class="col-lg-2 pr-0 pt-2 nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        <a class="btn btn-large text-left " aria-selected="true" href="/admin">Admin</a>
-        </th:block>
+        <a sec:authorize="hasAuthority('ROLE_ADMIN')" class="btn btn-large text-left " aria-selected="true"
+           href="/admin">Admin</a>
         <a class="btn btn-large text-left btn-primary" href="/user">User</a>
     </div>
     <div class="col-lg-10 bg-light pt-2">
@@ -48,23 +51,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td th:text="${user.id}">ID</td>
-                        <td th:text="${user.name}">First Name</td>
-                        <td th:text="${user.lastName}">Last Name</td>
-                        <td th:text="${user.age}">Age</td>
-                        <td th:text="${user.email}">Email</td>
-                        <td>
-                            <ul>
-                                <li th:each="role: ${user.roles}" th:text="${role}"></li>
-                            </ul>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="/user.js"></script>
 </body>
 </html>
