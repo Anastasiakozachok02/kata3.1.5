@@ -22,8 +22,4 @@ public class ViewController {
         return "admin";
     }
 
-    @PostMapping("/admin")
-    public String admin() {
-        return "redirect:admin";
-    }
 }

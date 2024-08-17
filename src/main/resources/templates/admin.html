@@ -140,7 +140,7 @@
                         <br/>
                         <label for="epassword" class="mb-0 pb-0" style="font-weight: bold;">Enter password: </label>
                         <input class="form-control" type="password"  name="password"
-                               id="epassword" required>
+                               id="epassword">
                         <br/>
                         <label for="eroles" class="mb-0 pb-0" style="font-weight: bold;">Role</label>
                         <select multiple class="form-control" size="2" name="roles"
@@ -148,7 +148,7 @@
                         </select>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-primary" id="editButton" onclick="editUser(user);">Edit</button>
                         </div>
                     </form>
                 </div>

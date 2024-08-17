@@ -67,21 +67,24 @@ function editUser(user) {
         for (let i = 0; i < options.length; i++) {
             if (options[i].selected) {
                 roles.push({
-                    id: options[i].value, name: options[i].text
+                    id: options[i].value,
+                    name: options[i].text
                 })
             }
         }
         fetch(`/edit/${user["id"]}`, {
-            method: "PUT", headers: {
+            method: "PUT",
+            headers: {
                 "Content-type": "application/json"
-            }, body: JSON.stringify({
+            },
+            body: JSON.stringify({
                 id: document.getElementById("eid").value,
                 name: document.getElementById("ename").value,
                 lastName: document.getElementById("elastName").value,
                 age: document.getElementById("eage").value,
                 email: document.getElementById("eemail").value,
                 password: document.getElementById("epassword").value,
-                roles: name
+                roles: roles
             })
         }).then(response => {
             return fetch("/users");
